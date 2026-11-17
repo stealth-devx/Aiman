@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Dhikr & Istighfar - Tasbih Électronique</title>
+  <meta name="theme-color" content="#faf7f2">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --ink: #0d3324;
+      --ink-muted: #5c665f;
+      --rule: #e4ddd0;
+      --danger: #8c3b3b;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      overflow-x: hidden;
+    }
+    .arabic {
+      font-family: 'Amiri', serif;
+      direction: rtl;
+    }
+    .serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    header {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 10px 0 12px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .link-btn {
+      background: transparent;
+      border: none;
+      color: var(--ink);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+    }
+    main {
+      width: 100%;
+      max-width: 520px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      justify-content: center;
+      padding: 12px 0;
+    }
+    .select-wrap {
+      width: 100%;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 12px;
+    }
+    select {
+      width: 100%;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      outline: none;
+      cursor: pointer;
+    }
+    .dhikr-arabic {
+      font-size: 2.6rem;
+      color: var(--ink);
+      line-height: 1.65;
+      margin: 6px 0 2px;
+    }
+    .dhikr-translit {
+      font-size: 1.45rem;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--ink);
+    }
+    .dhikr-trans {
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      margin-top: 2px;
+      margin-bottom: 18px;
+    }
+    .counter-display {
+      position: relative;
+      width: 228px;
+      height: 228px;
+      border-radius: 50%;
+      border: 1.5px solid #d5cbb8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 6px 0 18px;
+      cursor: pointer;
+    }
+    .count-num {
+      font-size: 5.2rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+    .count-target {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      margin-top: 6px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .big-btn {
+      width: 100%;
+      max-width: 240px;
+      height: 56px;
+      border-radius: 9999px;
+      background: var(--ink);
+      color: var(--bg);
+      font-size: 1.45rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.08s ease;
+    }
+    .big-btn:active {
+      transform: scale(0.97);
+    }
+    .bottom-actions {
+      display: flex;
+      gap: 18px;
+      margin-top: 16px;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+    .text-action {
+      background: transparent;
+      border: none;
+      color: var(--ink-muted);
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .text-action.danger {
+      color: var(--danger);
+    }
+    footer {
+      width: 100%;
+      max-width: 640px;
+      border-top: 1px solid var(--rule);
+      padding-top: 10px;
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      text-align: center;
+    }
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 10px 20px;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      z-index: 100;
+    }
+    .toast.show {
+      opacity: 1;
+    }
+  </style>
+<link rel="manifest" href="manifest.json"><script>if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js')</script></head>
+<body>
+  <header>
+    <div class="title serif">Dhikr &amp; Istighfar</div>
+    <button class="link-btn" onclick="shareApp()">Partager</button>
+  </header>
+
+  <main>
+    <div class="select-wrap">
+      <select id="dhikrSelect" onchange="onDhikrChange()">
+        <option value="subhanallah">SubhanAllah (سُبْحَانَ اللَّهِ)</option>
+        <option value="alhamdulillah">Alhamdulillah (الْحَمْدُ لِلَّهِ)</option>
+        <option value="allahuakbar">Allahu Akbar (اللَّهُ أَكْبَرُ)</option>
+        <option value="astaghfirullah">Astaghfirullah (أَسْتَغْفِرُ اللَّهَ)</option>
+        <option value="lailahaillallah">La ilaha illa Allah (لَا إِلَهَ إِلَّا اللَّهُ)</option>
+      </select>
+    </div>
+
+    <div class="dhikr-arabic arabic" id="dhikrArabic">سُبْحَانَ اللَّهِ</div>
+    <div class="dhikr-translit serif" id="dhikrTranslit">SubhanAllah</div>
+    <div class="dhikr-trans" id="dhikrTrans">Gloire à Allah</div>
+
+    <div class="counter-display" id="counterBox" onclick="increment()">
+      <div class="count-num serif" id="countDisplay">0</div>
+      <div class="count-target" id="targetDisplay">Objectif : 33</div>
+    </div>
+
+    <button class="big-btn serif" id="plusBtn" onclick="increment()">
+      <span>+ Compter</span>
+    </button>
+
+    <div class="bottom-actions">
+      <button class="text-action danger" onclick="resetCounter()">Remettre à zéro</button>
+      <span>·</span>
+      <button class="text-action" id="vibrateBtn" onclick="toggleVibration()">Vibration : activée</button>
+    </div>
+  </main>
+
+  <footer>
+    Sauvegarde automatique · 100 % hors ligne · Sans publicité
+  </footer>
+
+  <div class="toast" id="toast">Lien copié dans le presse-papiers !</div>
+
+  <script>
+    const FORMULAS = {
+      subhanallah: {
+        arabic: "سُبْحَانَ اللَّهِ",
+        translit: "SubhanAllah",
+        trans: "Gloire à Allah",
+        target: 33
+      },
+      alhamdulillah: {
+        arabic: "الْحَمْدُ لِلَّهِ",
+        translit: "Alhamdulillah",
+        trans: "Louange à Allah",
+        target: 33
+      },
+      allahuakbar: {
+        arabic: "اللَّهُ أَكْبَرُ",
+        translit: "Allahu Akbar",
+        trans: "Allah est le Plus Grand",
+        target: 34
+      },
+      astaghfirullah: {
+        arabic: "أَسْتَغْفِرُ اللَّهَ",
+        translit: "Astaghfirullah",
+        trans: "Je demande pardon à Allah",
+        target: 100
+      },
+      lailahaillallah: {
+        arabic: "لَا إِلَهَ إِلَّا اللَّهُ",
+        translit: "La ilaha illa Allah",
+        trans: "Il n’y a de divinité qu’Allah",
+        target: 100
+      }
+    };
+
+    let currentKey = localStorage.getItem('dhikr_current_key') || 'subhanallah';
+    let counts = JSON.parse(localStorage.getItem('dhikr_counts') || '{}');
+    let vibrateEnabled = localStorage.getItem('dhikr_vibrate') !== 'false';
+
+    function getCount() {
+      return counts[currentKey] || 0;
+    }
+
+    function setCount(val) {
+      counts[currentKey] = val;
+      localStorage.setItem('dhikr_counts', JSON.stringify(counts));
+      updateUI();
+    }
+
+    function updateUI() {
+      const data = FORMULAS[currentKey];
+      document.getElementById('dhikrSelect').value = currentKey;
+      document.getElementById('dhikrArabic').textContent = data.arabic;
+      document.getElementById('dhikrTranslit').textContent = data.translit;
+      document.getElementById('dhikrTrans').textContent = data.trans;
+      document.getElementById('countDisplay').textContent = getCount();
+      document.getElementById('targetDisplay').textContent = 'Objectif : ' + data.target;
+      document.getElementById('vibrateBtn').textContent = vibrateEnabled ? 'Vibration : activée' : 'Vibration : désactivée';
+    }
+
+    function increment() {
+      const current = getCount();
+      const target = FORMULAS[currentKey].target;
+      const next = current + 1;
+      setCount(next);
+
+      if (vibrateEnabled && 'vibrate' in navigator) {
+        if (next % target === 0) {
+          navigator.vibrate([40, 60, 40]);
+        } else {
+          navigator.vibrate(15);
+        }
+      }
+    }
+
+    function resetCounter() {
+      if (confirm('Voulez-vous remettre ce compteur à zéro ?')) {
+        setCount(0);
+      }
+    }
+
+    function toggleVibration() {
+      vibrateEnabled = !vibrateEnabled;
+      localStorage.setItem('dhikr_vibrate', vibrateEnabled);
+      updateUI();
+    }
+
+    function onDhikrChange() {
+      currentKey = document.getElementById('dhikrSelect').value;
+      localStorage.setItem('dhikr_current_key', currentKey);
+      updateUI();
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    function shareApp() {
+      const url = window.location.href;
+      const title = 'Dhikr & Istighfar - Tasbih Électronique';
+      const text = 'Voici une application simple et gratuite pour faire le dhikr et l\'istighfar, sans publicité et hors ligne : ' + url;
+
+      if (navigator.share) {
+        navigator.share({ title, text, url }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(url).then(() => {
+          showToast('Lien copié dans le presse-papiers !');
+        }).catch(() => {
+          prompt('Copiez ce lien :', url);
+        });
+      }
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        increment();
+      }
+    });
+
+    updateUI();
+  </script>
+</body>
+</html>
